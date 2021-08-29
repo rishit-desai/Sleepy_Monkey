@@ -34,7 +34,7 @@ module.exports = {
         }
 
         try{
-            command.execute(client,message,args);
+            command.command_execute(client,message,args);
         } catch (error) {
             console.log(`There was a problem executing ${command.name}`);
         }

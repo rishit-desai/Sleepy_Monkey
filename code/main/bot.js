@@ -1,5 +1,5 @@
 const { Client , Collection, Intents } = require('discord.js');
-const { token } = require('../../config.json');
+const { token, test_guilds } = require('../../config.json');
 const call = require('./command.js');
 const firebase = require('../extensions/firebase.js'); const util = require('../extensions/util.js');
 const emoji = require('../extensions/emojis.js');
@@ -9,6 +9,10 @@ module.exports = class Bot extends Client {
     constructor() {
         super({ intents: my_intents });
         this.once('ready', () => {
+            this.application?.commands.set(this.commands)
+            test_guilds.forEach( id => {
+                this.guilds.cache.get(id).commands.set(this.commands)
+            })
             console.log('Ready');
             this.user.setPresence({
                 activities: [{
@@ -46,6 +50,20 @@ module.exports = class Bot extends Client {
             if(message.content.startsWith(finalPrefix) && !message.content.substring(finalPrefix.length).startsWith(' '))
                 call.execute(this,message,finalPrefix);
         });
+
+        this.on('interactionCreate', interaction => {
+            if (!interaction.isCommand()) return;
+
+            let command_name = interaction.commandName
+
+            let com = this.util.getCommand(command_name)
+
+            try {
+                com?.interaction_execute(this, interaction)
+            } catch (error) {
+                console.log(`Error performing interaction-execute for ${command_name}\nError: ${error}`)
+            }
+        })
 
     }
 
