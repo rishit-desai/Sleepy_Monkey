@@ -34,25 +34,27 @@ module.exports = class Util {
 
     getCommand(commandName) {
         const command = this.client.commands.find(c => {
-            if(c.name == commandName || (c.aliases && c.aliases.includes(commandName)))
+            if(c.name == commandName || c.aliases?.includes(commandName))
                 return c
         })
         return command;
     }
 
-    getDefaultRole(id) {
-        let role 
-        if(this.client.cache.config[id] || this.client.cache.config[id].welcome_role) role = this.client.cache.config[id].welcome_role
-        return role
-    }
-
-    getEmbed(message, title, text) {
+    getMessageEmbed(message, title, text) {
         let toReturn = new MessageEmbed()
             .setColor('#EA8F77')
             .setFooter(`At your service, ${message.member.displayName}`, message.author.displayAvatarURL({dynamic : true}))
             .setAuthor(`${message.guild.name}`, message.guild.iconURL({dynamic : true}))
-        if(text) toReturn.setDescription(text);
-        if(title) toReturn.setTitle(title)
+        text && toReturn.setDescription(text);
+        title && toReturn.setTitle(title)
+        return toReturn;
+    }
+
+    getDefaultEmbed(title, text) {
+        let toReturn = new MessageEmbed();
+        toReturn.setColor('#EA8F77');
+        text && toReturn.setDescription(text);
+        title && toReturn.setTitle(title);
         return toReturn;
     }
 

@@ -14,3 +14,7 @@ jspm_packages/
 
 # Config files
 config*
+
+logs
+
+*.bat
