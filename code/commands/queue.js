@@ -42,7 +42,7 @@ module.exports = {
             }
             else
             {
-                const to_return = tracks.map((track, i) => `${start + (++1)} - [${track.title}] (${track.uri})`).join("\n");
+                const to_return = tracks.map((track, i) => `${start + (++i)} - [${track.title}] (${track.uri})`).join("\n");
                 mes.setDescription(to_return);
             }
             const maxPages = Math.ceil(queue.length / tracks_per_page);

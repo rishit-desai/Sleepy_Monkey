@@ -33,16 +33,17 @@ module.exports = {
             textChannel: message.channel.id,
         });
     
+        let track = res.tracks[0];
         // Connect to the voice channel and add the track to the queue
         if (!message.guild.me.voice.channelId)
             player.connect();
-        player.queue.add(res.tracks[0]);
+        player.queue.add(track);
     
         // Checks if the client should play the track if it's the first one added
         if (!player.playing && !player.paused && !player.queue.size) player.play()
 
         const mes = client.util.getDefaultEmbed("Added to Queue", `Enqueuing [${track.title}](${track.uri})\n${track.requester}`)
-        return message.reply({embeds:mes});
+        return message.reply({embeds:[mes]});
     },
 
     /**
@@ -58,7 +59,7 @@ module.exports = {
             textChannel: interaction.channel.id,
         });
     
-        let track = res.tracks[0]
+        let track = res.tracks[0];
         // Connect to the voice channel and add the track to the queue
         if (!interaction.guild.me.voice.channelId)
             player.connect();
@@ -68,7 +69,7 @@ module.exports = {
         if (!player.playing && !player.paused && !player.queue.size) player.play()
     
         const mes = client.util.getDefaultEmbed("Added to Queue", `Enqueuing [${track.title}](${track.uri})\n${track.requester}`)
-        return interaction.followUp({embeds: mes});
+        return interaction.followUp({embeds: [mes]});
       
     }
 };
